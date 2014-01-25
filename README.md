@@ -18,6 +18,7 @@ Edit env.py to define the following parameters
 * userUrl = "http://localhost:8001/org/api/users/{0}/exists/"
 * verify = True or False
 * cert = '/etc/ssl/certs/selfSignedCert.pem'
+
 It is required to specify the certificate file if https is used in tokenUrl and userUrl
 with self-signed certificate. Please see [python requests library]
 (http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification)
@@ -45,5 +46,6 @@ Testing
 Run oauth2.py with the parameter as specified in [prosody external auth]
 (http://code.google.com/p/prosody-modules/wiki/mod_auth_external)
 
-	echo auth:username:ttsoon.com:password |python oauth2.py 
-	echo isuser:username:ttsoon.com |python oauth2.py 
+	cat | python oauth2.py 
+	auth:username:ttsoon.com:password 
+	isuser:username:ttsoon.com 
