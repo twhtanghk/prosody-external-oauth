@@ -5,22 +5,22 @@ Prosody external authentication for OAuth2
 
 User supplied username and password will be sent to specified OAuth2 Provider
 to verify the identity as specified in Section 4.3 of RFC 6749 (Resource Owner
-Password Credentials Grant).
+Password Credentials Grant) or RFC 6750 (Bearer Token).
 
 Configuration
 -------------
 Install python requests library
 * run pip install -r requirements.txt
 Edit env.py to define the following parameters
+* authType = "Resource" or "Bearer"
 * clientId = "xmpp"
 * clientPass = "xmpp-client"
-* tokenUrl = "http://localhost:8001/org/oauth2/token/"
-* userUrl = "http://localhost:8001/org/api/users/{0}/exists/"
-* verify = True or False
-* cert = '/etc/ssl/certs/selfSignedCert.pem'
+* tokenUrl = "https://ttsoon.com/org/oauth2/token/"
+* userUrl = "https://ttsoon.com/org/api/users/{0}/exists/"
+* verify = False or cabundle file
 
-It is required to specify the certificate file if https is used in tokenUrl and userUrl
-with self-signed certificate. Please see [python requests library]
+It is required to specify the cabundle file if https connected to sever
+with self-signed certificate in tokenUrl and userUrl. Please see [python requests library]
 (http://docs.python-requests.org/en/latest/user/advanced/#ssl-cert-verification)
 for details.
 

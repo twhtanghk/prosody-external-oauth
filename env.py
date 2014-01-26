@@ -1,11 +1,16 @@
 import logging.config
 
+# authType = "Resource" or "Bearer"
+authType = "Bearer"
 clientId = "xmpp"
 clientPass = "xmpp-client"
-tokenUrl = "http://ttsoon.com:8001/org/oauth2/token/"
-userUrl = "http://ttsoon.com:8001/org/api/users/{0}/exists/"
-verify = False
-cert = ''
+# tokenUrl = 
+#    "https://ttsoon.com/org/oauth2/token/" for Resource
+#    or "https://ttsoon.com/org/api/users/me/" for Bearer
+tokenUrl = "https://ttsoon.com/org/api/users/me/"
+userUrl = "https://ttsoon.com/org/api/users/{0}/exists/"
+# False or cabundle file
+verify = '/etc/ssl/certs/ca-certificates.crt'
 
 LOGGING = {
     'version': 1,

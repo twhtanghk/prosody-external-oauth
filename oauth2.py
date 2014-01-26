@@ -9,13 +9,13 @@ from os.path import expanduser
 
 try:    
     sys.path.append(expanduser("~/.python"))
-    from env import clientId, clientPass, tokenUrl, userUrl, verify, cert
+    from env import authType, clientId, clientPass, tokenUrl, userUrl, verify
 except ImportError:
     pass
 
 logger = logging.getLogger('oauth2')
 
-def auth(args):
+def authResource(args):
     username = args[1]
     domain = args[2]
     password = args[3]
@@ -25,15 +25,28 @@ def auth(args):
         'username': username,
         'password': password
     }
-    headers = { 'Authorization': "Basic ${0}".format(code) }
-    r = requests.post(tokenUrl, data, headers=headers, verify=verify, cert=cert)
+    headers = { 'Authorization': "Basic {0}".format(code) }
+    r = requests.post(tokenUrl, data, headers=headers, verify=verify)
     logger.debug(r.content)
     return 1 if r.status_code == 200 else 0
+    
+def authBearer(args):
+    username = args[1]
+    domain = args[2]
+    password = args[3]
+    headers = { 'Authorization': "Bearer {0}".format(password) }
+    r = requests.get(tokenUrl, headers=headers, verify=verify)
+    logger.debug(r.content)
+    return 1 if r.status_code == 200 and r.json()['username'] == username else 0
+    
+def auth(args):
+    func = { 'Resource': authResource, 'Bearer': authBearer }
+    return func[authType](args)
     
 def isuser(args):
     username = args[1]
     domain = args[2]
-    r = requests.get(userUrl.format(username), verify=verify, cert=cert)
+    r = requests.get(userUrl.format(username), verify=verify)
     logger.debug(r.content)
     return 1 if r.status_code == 200 else 0
     
