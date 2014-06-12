@@ -9,7 +9,7 @@ from os.path import expanduser
 
 try:    
     sys.path.append(expanduser("~/.python"))
-    from env import authType, clientId, clientPass, tokenUrl, userUrl, verify
+    from env import clientId, clientPass, tokenUrl, userUrl, verify
 except ImportError:
     pass
 
@@ -26,22 +26,22 @@ def authResource(args):
         'password': password
     }
     headers = { 'Authorization': "Basic {0}".format(code) }
-    r = requests.post(tokenUrl, data, headers=headers, verify=verify)
+    r = requests.post(tokenUrl['resource'], data, headers=headers, verify=verify)
     logger.debug(r.content)
-    return 1 if r.status_code == 200 else 0
+    return True if r.status_code == 200 else False
     
 def authBearer(args):
     username = args[1]
     domain = args[2]
     password = args[3]
     headers = { 'Authorization': "Bearer {0}".format(password) }
-    r = requests.get(tokenUrl, headers=headers, verify=verify)
+    r = requests.get(tokenUrl['bearer'], headers=headers, verify=verify)
     logger.debug(r.content)
-    return 1 if r.status_code == 200 and r.json()['username'] == username else 0
-    
+    return True if r.status_code == 200 and r.json()['username'] == username else False
+
+# check username/password or username/token via oauth2 resource password or oauth2 implicit grant
 def auth(args):
-    func = { 'Resource': authResource, 'Bearer': authBearer }
-    return func[authType](args)
+    return 1 if (authResource(args) or authBearer(args)) else 0
     
 def isuser(args):
     username = args[1]
