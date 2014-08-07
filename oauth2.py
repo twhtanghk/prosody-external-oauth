@@ -41,7 +41,9 @@ def authBearer(args):
 
 # check username/password or username/token via oauth2 resource password or oauth2 implicit grant
 def auth(args):
-    return 1 if (authResource(args) or authBearer(args)) else 0
+    ret = 1 if (authResource(args) or authBearer(args)) else 0
+    logger.debug(ret)
+    return ret
     
 def isuser(args):
     username = args[1]
@@ -53,7 +55,7 @@ def isuser(args):
 def setpass(args):
     return 0
     
-def proccess(line):
+def process(line):
     args = line.split(':')
     func = { 'auth': auth, 'isuser': isuser, 'setpass': setpass }
     if (args[0] in func):
@@ -63,6 +65,6 @@ def proccess(line):
 logger.debug('start')
 while 1:
     line = sys.stdin.readline().rstrip("\n")
-    sys.stdout.write(str(proccess(line)) + "\n")
+    sys.stdout.write(str(process(line)))
     sys.stdout.flush()
 logger.debug('end')
