@@ -5,14 +5,15 @@ Prosody external authentication for OAuth2
 
 User supplied username and password will be sent to specified OAuth2 Provider
 to verify the identity as specified in Section 4.3 of RFC 6749 (Resource Owner
-Password Credentials Grant) or RFC 6750 (Bearer Token).
+Password Credentials Grant) or RFC 6750 (Bearer Token). Either password or
+bearer token can be used to verify the user identify.
 
 Configuration
 -------------
 Install python requests library
 * run pip install -r requirements.txt
+
 Edit env.py to define the following parameters
-* authType = "Resource" or "Bearer"
 * clientId = "xmpp"
 * clientPass = "xmpp-client"
 * tokenUrl = "https://ttsoon.com/org/oauth2/token/"
